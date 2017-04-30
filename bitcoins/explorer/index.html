@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<html>
+	<head>
+		<meta charset="utf-8"> 
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title> Troisième page BitCoins </title>						
+	</head>
+	<body>
+		<div class="container">
+			<div class="jumbotron">
+				<h1 class="text-center">Formulaire de saisie</h1>
+			</div>
+		</div>
+
+		<form class="form-inline" id="form">
+			<div class="form-group">
+    			<label for="example">Adresse Bitcoins</label>
+    			<input type="text" class="form-control" id="AdresseBitcoins" placeholder="Bitcoins Adresse">
+  			</div>
+  			<button type="button" onclick="requeteChamp()" class="btn btn-default">Valider</button>
+  		</form>
+  			<div class="row">
+				<div class="col-lg-12 col-xs-6">
+					<p>Affichage resultat</p>
+    				<pre>
+        				<code id="champAddress" class="json kljs"></code>
+    				</pre>
+				</div>
+			</div>
+		<form class="form-inline" id="form">
+			<div class="form-group">
+    			<label for="example">Hash de transaction</label>
+    			<input type="text" class="form-control" id="Htransac" placeholder="Hash de transaction">
+  			</div>
+  			<button type="button" onclick="requeteChamp()" class="btn btn-default">Valider</button>
+  		</form>
+  			<div class="row">
+				<div class="col-lg-12 col-xs-6">
+					<p>Affichage resultat</p>
+    				<pre>
+        				<code id="champHTransac" class="json kljs"></code>
+    				</pre>
+				</div>
+			</div>
+		<form class="form-inline" id="form">
+			<div class="form-group">
+    			<label for="example">Hash d'un bloc</label>
+    			<input type="text" class="form-control" id="Hashbloc" placeholder="Hash d'un bloc">
+  			</div>
+  			<button type="button" onclick="requeteChamp()" class="btn btn-default">Valider</button>
+  		</form>
+  			<div class="row">
+				<div class="col-lg-12 col-xs-6">
+					<p>Affichage resultat</p>
+    				<pre>
+        				<code id="champHBlock" class="json kljs"></code>
+    				</pre>
+				</div>
+			</div>
+		<form class="form-inline" id="form">
+			<div class="form-group">
+    			<label for="example">Numero de bloc</label>
+    			<input type="text" class="form-control" id="Numbloc" placeholder="Numero de bloc">
+  			</div>
+  			<button type="button" onclick="requeteChamp()" class="btn btn-default">Valider</button>
+  		</form>
+  			<div class="row">
+				<div class="col-lg-12 col-xs-6">
+					<p>Affichage resultat</p>
+    				<pre>
+        				<code id="champNumBloc" class="json kljs"></code>
+    				</pre>
+				</div>
+			</div>
+	</body>
+
+	<script>
+	function requeteChamp() {
+        var address = document.getElementById("AdresseBitcoins").value;
+        var hashTransac = document.getElementById("Htransac").value;
+        var hashBlock = document.getElementById("Hashbloc").value;
+        var index = document.getElementById("Numbloc").value;
+        if (address != "") {
+            if ((/^[0-9a-zA-Z]{34}$/.test(address))) {
+                requeteAPI("https://bitcoin.mubiz.com/address/" + address + "/", "champAddress");
+            } else {
+                document.getElementById("champAddress").innerHTML = "Erreur";
+            }
+        }
+        if (hashTransac != "") {
+            if ((/^[0-9a-zA-Z]{64}$/.test(hashTransac))) {
+                requeteAPI("https://bitcoin.mubiz.com/transaction/" + hashTransac + "/", "champHTransac");
+            } else {
+                document.getElementById("champHTransac").innerHTML = "Erreur";
+            }
+        }
+
+        if (hashBlock != "") {
+            if ((/^[0-9a-zA-Z]{64}$/.test(hashBlock))) {
+                requeteAPI("https://bitcoin.mubiz.com/block_hash/" + hashBlock + "/", "champHBlock");
+            } else {
+                document.getElementById("champHBlock").innerHTML = "Erreur";
+            }
+        }
+
+        if (index != "") {
+            if (/^[0-9]{5,}$/.test(index)) {
+                requeteAPI("https://bitcoin.mubiz.com/block_index/" + index + "/", "champNumBloc");
+            } else {
+                document.getElementById("champNumBloc").innerHTML = "Erreur";
+            }
+        }
+    }
+
+    </script>
+</html> 
